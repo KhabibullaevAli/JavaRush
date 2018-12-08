@@ -1,0 +1,30 @@
+package com.javarush.task.task18.task1822;
+
+/* 
+Поиск данных внутри файла
+*/
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1 = br.readLine();
+            br.close();
+
+            br = new BufferedReader(new FileReader(file1));
+
+            String strLine;
+            while ((strLine = br.readLine()) != null){
+                String[] words = strLine.split(" ");
+                if (words[0].equals((args[0])+"")) {System.out.println(strLine); break;}}
+
+            br.close();
+
+            } catch(Exception e){ }
+    }
+}
