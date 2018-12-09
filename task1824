@@ -1,0 +1,45 @@
+package com.javarush.task.task18.task1824;
+
+/* 
+Файлы и исключения
+*/
+
+import java.io.*;
+
+public class Solution {
+   static Boolean interrupt1;
+    public static void main(String[] args) {
+        interrupt1=false;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1;
+            while (!interrupt1)
+            {file1 = br.readLine();
+            (new ReadThread(file1)).start(); Thread.sleep(600);}
+            br.close();
+//            System.out.println("Main ends");
+        } catch (Exception e) {
+            System.out.println("exception error");
+        }
+    }
+
+
+    public static class ReadThread extends Thread {
+        private String name;
+
+        public ReadThread(String fileName) {
+            this.name = fileName;
+        }
+
+        public void run()
+        {try { FileInputStream fi = new FileInputStream(name);
+            while (!interrupt1){sleep(300);}
+            fi.close();
+//            System.out.println(name+" closed");
+        } catch (Exception e){interrupt1=true;
+            System.out.println(name);
+        }
+        }
+    }
+}
+
