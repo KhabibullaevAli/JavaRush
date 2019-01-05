@@ -1,0 +1,64 @@
+package com.javarush.task.task19.task1921;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/* 
+Хуан Хуанович
+
+В метод main первым параметром приходит имя файла.
+В этом файле каждая строка имеет следующий вид:
+имя день месяц год
+где [имя] - может состоять из нескольких слов, разделенных пробелами, и имеет тип String.
+[день] - int, [месяц] - int, [год] - int
+данные разделены пробелами.
+
+Заполнить список PEOPLE используя данные из файла.
+Закрыть потоки.
+
+Пример входного файла:
+Иванов Иван Иванович 31 12 1987
+Вася 15 5 2013
+*/
+
+public class Solution {
+    public static final List<Person> PEOPLE = new ArrayList<Person>();
+
+    public static void main(String[] args) {
+        String arg0="d:\\test3.txt";
+        try {
+            BufferedReader br2 = new BufferedReader(new FileReader(arg0));
+            String line;
+            while ((line = br2.readLine()) != null) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH);
+                    String name = line.replaceAll("\\d", "").trim();
+                    String date = line.replace(name, "").trim();
+                    PEOPLE.add(new Person(name, sdf.parse(date)));
+//
+//                String[] elements = line.split(" ");
+//                int len=elements.length;
+//                String year=elements[len-1];
+//                String month=elements[len-2];
+//                if (month.length()==1)month="0"+month;
+//                String day=elements[len-3];
+//                if (day.length()==1) day="0"+day;
+//                String name="";
+//                for (int i=0; i<len-3; i++){name=name+elements[i]+" ";}
+//                name=name.substring(0, name.length()-1);
+//                SimpleDateFormat formatForDate = new SimpleDateFormat("ddMMyyyy");
+//                Date date = formatForDate.parse(day+month+year);
+//                PEOPLE.add(new Person(name, date));
+            } br2.close();
+
+
+            for (int i=0; i<PEOPLE.size(); i++){
+                System.out.println(PEOPLE.get(i).getName()+" and db "+PEOPLE.get(i).getBirthDate()); }
+
+        } catch (Exception e){
+            System.out.println("err");
+        }
+    }
+}
