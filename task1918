@@ -1,0 +1,77 @@
+package com.javarush.task.task19.task1918;
+
+/* 
+Знакомство с тегами
+
+Считайте с консоли имя файла, который имеет HTML-формат.
+
+Пример:
+Info about Leela <span xml:lang="en" lang="en"><b><span>Turanga Leela
+</span></b></span><span>Super</span><span>girl</span>
+
+Первым параметром в метод main приходит тег. Например, "span".
+Вывести на консоль все теги, которые соответствуют заданному тегу.
+Каждый тег на новой строке, порядок должен соответствовать порядку следования в файле.
+Количество пробелов, \n, \r не влияют на результат.
+Файл не содержит тег CDATA, для всех открывающих тегов имеется отдельный закрывающий тег, одиночных тегов нет.
+Тег может содержать вложенные теги.
+
+Пример вывода:
+<span xml:lang="en" lang="en"><b><span>Turanga Leela</span></b></span>
+<span>Turanga Leela</span>
+<span>Super</span>
+<span>girl</span>
+
+Требования:
+1. Программа должна считывать имя файла с консоли (используй BufferedReader).
+2. BufferedReader для считывания данных с консоли должен быть закрыт.
+3. Программа должна считывать содержимое файла (используй FileReader).
+4. Поток чтения из файла (FileReader) должен быть закрыт.
+5. Программа должна выводить в консоль все теги, которые соответствуют тегу, заданному в параметре метода main.
+*/
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Solution {
+    public static void main(String[] args) {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1 = br.readLine();
+            br.close();
+            BufferedReader br2 = new BufferedReader(new FileReader(file1));
+            String text = "";
+            String line;
+            while ((line = br2.readLine()) != null) {text = text + line;}
+            br2.close();
+
+            ArrayList<String> results= new ArrayList<>();
+            ArrayList <Integer> o = Find("<"+args[0], text);
+            ArrayList <Integer> c = Find("</"+args[0], text);
+            for (int i=o.size()-1; i>=0; i--) {
+                int j=0;
+                while (c.get(j)<o.get(i)){j++;}
+                results.add(text.substring(o.get(i),c.get(j)+3+args[0].length()));
+                c.remove(j);}
+
+            for (int i=results.size()-1; i>=0; i--){
+                System.out.println(results.get(i)); }
+
+        } catch (IOException e) {
+        }
+    }
+public static ArrayList <Integer> Find(String teg, String text){
+    ArrayList<Integer> returnedList= new ArrayList<>();
+        Pattern pattern = Pattern.compile(teg);
+    Matcher matcher = pattern.matcher(text);
+    while (matcher.find()) {
+        int start = matcher.start();
+//        int end = matcher.end();
+        returnedList.add(start);}
+    return returnedList;
+    }
+
+}
