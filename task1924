@@ -1,0 +1,67 @@
+package com.javarush.task.task19.task1924;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_16;
+
+/* 
+Замена чисел
+*/
+
+public class Solution {
+    public static Map<Integer, String> map = new HashMap<Integer, String>();
+    static {
+        map.put(0,"ноль");
+        map.put(1,"один");
+        map.put(2,"два");
+        map.put(3,"три");
+        map.put(4,"четыре");
+        map.put(5,"пять");
+        map.put(6,"шесть");
+        map.put(7,"семь");
+        map.put(8,"восемь");
+        map.put(9,"девять");
+        map.put(10,"десять");
+        map.put(11,"одиннадцать");
+        map.put(12,"двенадцать");
+    }
+
+    public static void main(String[] args) {
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+//        String file="d:\\test3.txt";
+        try {
+            String file= br.readLine();
+            br.close();
+            BufferedReader br2 = new BufferedReader(new FileReader(file));
+            String line;
+            Pattern pattern =Pattern.compile("\\s1[0-2]\\s|\\s[0-9]\\s");
+            while ((line = br2.readLine()) != null) {
+
+                for (int i = 12; i >= 0 ; i--) {
+                    line = line.replaceAll("\\b("+i+")\\b",map.get(i));}
+                System.out.println(line);
+//              Выше не мое решение, а ниже мое(валидацию не проходит почему-то)
+//                Matcher matcher=pattern.matcher(line);
+//                String newLine="";
+//                int i=0;
+//                while (matcher.find()){
+//                    int num= Integer.parseInt(line.substring(matcher.start()+1,matcher.end()-1));
+//                    newLine=newLine+line.substring(i,matcher.start()+1)+map.get(num);
+//                    i=matcher.end()-1;
+//                }
+//                System.out.println(newLine+line.substring(i));
+            }
+
+
+            br2.close();
+            } catch (Exception e){}
+    }
+}
+
